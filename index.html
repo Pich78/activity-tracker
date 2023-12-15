@@ -6,6 +6,12 @@
     <style>
         .bar {
             fill: steelblue;
+            transition: fill 0.3s ease;
+        }
+
+        .bar:hover {
+            fill: darkblue;
+            filter: drop-shadow(0 0 10px darkblue);
         }
 
         .tooltip {
@@ -15,16 +21,18 @@
             height: 28px;
             padding: 2px;
             font: 12px sans-serif;
-            background: lightsteelblue;
-            border: 0px;
-            border-radius: 8px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
             pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
     </style>
 </head>
 <body>
     <svg width="800" height="600"></svg>
-    <div class="tooltip" style="opacity:0;"></div>
+    <div class="tooltip"></div>
     <script>
         var svg = d3.select("svg"),
             margin = {top: 20, right: 20, bottom: 30, left: 40},
@@ -37,7 +45,7 @@
         var g = svg.append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        var tooltip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
+        var tooltip = d3.select(".tooltip");
 
         // Load the list of .json files
         fetch('https://api.github.com/repos/Pich78/activity-tracker/contents/data')
@@ -93,17 +101,13 @@
                         .attr("width", x.bandwidth())
                         .attr("height", function(d) { return height - y(d.number); })
                         .on("mouseover", function(d) {
-                            tooltip.transition()
-                                .duration(200)
-                                .style("opacity", .9);
+                            tooltip.style("opacity", 1);
                             tooltip.html(d.number)
                                 .style("left", (d3.event.pageX) + "px")
                                 .style("top", (d3.event.pageY - 28) + "px");
                         })
                         .on("mouseout", function(d) {
-                            tooltip.transition()
-                                .duration(500)
-                                .style("opacity", 0);
+                            tooltip.style("opacity", 0);
                         });
                 });
             })
