@@ -23,33 +23,58 @@
         var g = svg.append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        d3.json('data.json').then(function(data) {
-            x.domain(data.map(function(d) { return d.activity; }));
-            y.domain([0, d3.max(data, function(d) { return d.number; })]);
+        // Load the list of .json files
+        d3.json('data').then(function(files) {
+            var promises = files.map(function(file) {
+                return d3.json('data/' + file);
+            });
 
-            g.append("g")
-                .attr("class", "axis axis--x")
-                .attr("transform", "translate(0," + height + ")")
-                .call(d3.axisBottom(x));
+            Promise.all(promises).then(function(data) {
+                // Flatten the data array
+                data = data.flat();
 
-            g.append("g")
-                .attr("class", "axis axis--y")
-                .call(d3.axisLeft(y).ticks(10))
-                .append("text")
-                .attr("transform", "rotate(-90)")
-                .attr("y", 6)
-                .attr("dy", "0.71em")
-                .attr("text-anchor", "end")
-                .text("Number");
+                // Process the data here
+                var activities = {};
 
-            g.selectAll(".bar")
-                .data(data)
-                .enter().append("rect")
-                .attr("class", "bar")
-                .attr("x", function(d) { return x(d.activity); })
-                .attr("y", function(d) { return y(d.number); })
-                .attr("width", x.bandwidth())
-                .attr("height", function(d) { return height - y(d.number); });
+                data.forEach(function(d) {
+                    if (!activities[d.activity]) {
+                        activities[d.activity] = 0;
+                    }
+                    activities[d.activity] += d.number;
+                });
+
+                // Convert the 'activities' object to an array
+                data = Object.keys(activities).map(function(key) {
+                    return {activity: key, number: activities[key]};
+                });
+
+                x.domain(data.map(function(d) { return d.activity; }));
+                y.domain([0, d3.max(data, function(d) { return d.number; })]);
+
+                g.append("g")
+                    .attr("class", "axis axis--x")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x));
+
+                g.append("g")
+                    .attr("class", "axis axis--y")
+                    .call(d3.axisLeft(y).ticks(10))
+                    .append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 6)
+                    .attr("dy", "0.71em")
+                    .attr("text-anchor", "end")
+                    .text("Number");
+
+                g.selectAll(".bar")
+                    .data(data)
+                    .enter().append("rect")
+                    .attr("class", "bar")
+                    .attr("x", function(d) { return x(d.activity); })
+                    .attr("y", function(d) { return y(d.number); })
+                    .attr("width", x.bandwidth())
+                    .attr("height", function(d) { return height - y(d.number); });
+            });
         });
     </script>
 </body>
