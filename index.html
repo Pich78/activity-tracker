@@ -32,25 +32,6 @@
     <div id="chart"></div>
 
     <script>
-        let data = [];
-        fetchData('https://api.github.com/repos/Pich78/activity-tracker/contents/data')
-            .then(fetchedData => {
-                data = fetchedData;
-                console.log(data)
-
-                var timeRangeSelector = d3.select("#timeRange");
-                var activitySelector = d3.select("#activity");
-
-                // Get unique activities
-                var activities = [...new Set(data.map(item => item.activity))];
-
-                console.log("Load activity")
-
-                // Add options to activity selector
-                activities.forEach(function(activity) {
-                    activitySelector.append("option").text(activity).attr("value", activity);
-                });
-            });
 
         function updateChart() {
             var timeRange = timeRangeSelector.property("value");
@@ -98,12 +79,34 @@
                .attr("height", function(d) { return 500 - y(d.value); });
         }
 
-        // Update the chart whenever a selector changes
-        timeRangeSelector.on("change", updateChart);
-        activitySelector.on("change", updateChart);
 
-        // Initial chart rendering
-        updateChart();
+        let data = [];
+        fetchData('https://api.github.com/repos/Pich78/activity-tracker/contents/data')
+            .then(fetchedData => {
+                data = fetchedData;
+                console.log(data)
+
+                var timeRangeSelector = d3.select("#timeRange");
+                var activitySelector = d3.select("#activity");
+
+                // Get unique activities
+                var activities = [...new Set(data.map(item => item.activity))];
+
+                console.log("Load activity")
+
+                // Add options to activity selector
+                activities.forEach(function(activity) {
+                    activitySelector.append("option").text(activity).attr("value", activity);
+                });
+
+                // Update the chart whenever a selector changes
+                timeRangeSelector.on("change", updateChart);
+                activitySelector.on("change", updateChart);
+
+                // Initial chart rendering
+                updateChart();
+            });
+
     </script>
 
 </body>
