@@ -36,9 +36,10 @@
         fetchData('https://api.github.com/repos/Pich78/activity-tracker/contents/data')
             .then(fetchedData => {
                 data = fetchedData;
+                console.log(data)
             });
         
-        console.log(data)
+    
 
         var timeRangeSelector = d3.select("#timeRange");
         var activitySelector = d3.select("#activity");
