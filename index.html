@@ -2,26 +2,32 @@
 <html>
 <head>
     <title>Bar Chart with D3.js</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
         .bar {
             fill: steelblue;
-            transition: fill 0.3s ease;
+            transition: fill 0.3s ease, transform 0.3s ease;
         }
 
         .bar:hover {
             fill: darkblue;
             filter: drop-shadow(0 0 10px darkblue);
+            transform: translateY(-10px);
         }
 
         .tooltip {
             position: absolute;
             text-align: center;
-            width: 60px;
-            height: 28px;
+            width: 40px;
+            height: 20px;
             padding: 2px;
-            font: 12px sans-serif;
-            background: white;
+            font-size: 10px;
+            background: rgba(255, 255, 255, 0.8);
             border: 1px solid #ccc;
             border-radius: 4px;
             pointer-events: none;
@@ -101,13 +107,17 @@
                         .attr("width", x.bandwidth())
                         .attr("height", function(d) { return height - y(d.number); })
                         .on("mouseover", function(d) {
-                            tooltip.style("opacity", 1);
+                            tooltip.transition()
+                                .duration(200)
+                                .style("opacity", 1);
                             tooltip.html(d.number)
                                 .style("left", (d3.event.pageX) + "px")
                                 .style("top", (d3.event.pageY - 28) + "px");
                         })
                         .on("mouseout", function(d) {
-                            tooltip.style("opacity", 0);
+                            tooltip.transition()
+                                .duration(500)
+                                .style("opacity", 0);
                         });
                 });
             })
