@@ -37,22 +37,20 @@
             .then(fetchedData => {
                 data = fetchedData;
                 console.log(data)
+
+                var timeRangeSelector = d3.select("#timeRange");
+                var activitySelector = d3.select("#activity");
+
+                // Get unique activities
+                var activities = [...new Set(data.map(item => item.activity))];
+
+                console.log("Load activity")
+
+                // Add options to activity selector
+                activities.forEach(function(activity) {
+                    activitySelector.append("option").text(activity).attr("value", activity);
+                });
             });
-        
-    
-
-        var timeRangeSelector = d3.select("#timeRange");
-        var activitySelector = d3.select("#activity");
-
-        // Get unique activities
-        var activities = [...new Set(data.map(item => item.activity))];
-
-        console.log("Load activity")
-
-        // Add options to activity selector
-        activities.forEach(function(activity) {
-            activitySelector.append("option").text(activity).attr("value", activity);
-        });
 
         function updateChart() {
             var timeRange = timeRangeSelector.property("value");
