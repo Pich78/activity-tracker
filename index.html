@@ -8,7 +8,7 @@
     <ul id="fileList"></ul>
 
     <script>
-    fetch('https://api.github.com/repos/Pich78/activity-tracker/tree/main/data')
+    fetch('https://api.github.com/repos/Pich78/activity-tracker/contents/data')
         .then(response => response.json())
         .then(data => {
             const fileList = document.getElementById('fileList');
