@@ -1,6 +1,5 @@
 [
     {"activity": "Running", "number": 10},
-    {"activity": "Swimming", "number": 15},
     {"activity": "Cycling", "number": 8},
     {"activity": "Hiking", "number": 12},
     {"activity": "Coding", "number": 1},
