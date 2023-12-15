@@ -3,24 +3,23 @@ function fetchData(path) {
     return fetch(path)
         .then(response => response.json())
         .then(files => {
-            let data = [];
-            files.forEach(file => {
-                fetch(file.download_url)
+            let promises = files.map(file => {
+                return fetch(file.download_url)
                     .then(response => response.json())
                     .then(fileData => {
                         let date = file.name.substring(0, 10); // extract date from file name
-                        fileData.forEach(activity => {
-                            data.push({
+                        return fileData.map(activity => {
+                            return {
                                 date: date,
                                 activity: activity.activity,
                                 value: activity.value,
                                 unit: activity.unit
-                            });
+                            };
                         });
-                    })
-                    .catch(error => console.error(error));
+                    });
             });
-            return data;
+            return Promise.all(promises);
         })
+        .then(dataArrays => [].concat(...dataArrays)) // flatten the array of arrays
         .catch(error => console.error(error));
 }
