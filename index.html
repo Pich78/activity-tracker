@@ -6,12 +6,21 @@
 </head>
 <body>
     <script>
+        let data = [];
         fetchData('https://api.github.com/repos/Pich78/activity-tracker/contents/data')
-            .then(data => {
-                data.forEach(item => {
-                    document.body.innerHTML += "Date: " + item.date + ", Activity: " + item.activity + ", Value: " + item.value + ", Unit: " + item.unit + "<br>";
-                });
+            .then(fetchedData => {
+                data = fetchedData;
             });
+    </script>
+
+    <button onclick="printData()">Print Data</button>
+
+    <script>
+        function printData() {
+            data.forEach(item => {
+                document.body.innerHTML += "Date: " + item.date + ", Activity: " + item.activity + ", Value: " + item.value + ", Unit: " + item.unit + "<br>";
+            });
+        }
     </script>    
 </body>
 </html>
