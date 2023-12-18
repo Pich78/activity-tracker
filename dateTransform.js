@@ -1,4 +1,4 @@
-export function dateTransform(file_name_date) {
+function dateTransform(file_name_date) {
         
     let parts = file_name_date.split('_');
     let year = parseInt(parts[0], 10);
