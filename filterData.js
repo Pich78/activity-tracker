@@ -1,3 +1,5 @@
+import { dateTransform } from './dateTransform.js'
+
 function filterData(activity, days, data_array) {
 
     let cutoff = new Date();
@@ -5,11 +7,7 @@ function filterData(activity, days, data_array) {
 
     return data_array.filter(item => {
 
-        let parts = item.date.split('_');
-        let year = parseInt(parts[0], 10);
-        let month = parseInt(parts[1], 10) - 1; // JavaScript months are 0-indexed
-        let day = parseInt(parts[2], 10);
-        let itemDate = new Date(year, month, day);
+        let itemDate = dateTransform(item.date);
 
         if (item.activity === activity) {
             console.log(itemDate)
