@@ -1,6 +1,7 @@
 function filterData(activity, days, data_array) {
     console.log("Filter Data")
     let cutoff = new Date();
+    console.log(cutoff)
     cutoff.setDate(cutoff.getDate() - days);
 
     return data_array.filter(item => {
