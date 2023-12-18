@@ -14,7 +14,7 @@ function filterData(activity, days, data_array) {
         let day = parseInt(parts[2], 10);
         let itemDate = new Date(year, month, day);
 
-        console.log("Converted item date: " + item.date)
+        console.log("Converted item date: " + itemDate)
         if (item.activity === activity) {
             console.log(itemDate)
             console.log(cutoff)
