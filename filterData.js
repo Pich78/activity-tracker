@@ -1,4 +1,4 @@
-import { dateTransform } from './dateTransform.js'
+dateTransform = require('./dateTransform.js');
 
 function filterData(activity, days, data_array) {
 
