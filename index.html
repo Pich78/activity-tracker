@@ -45,6 +45,7 @@
             let days = document.getElementById('timeSelector').value;
             let cutoff = new Date();
             cutoff.setDate(cutoff.getDate() - days);
+            console.log(cutoff)
 
             return dataArray.filter(item => {
                 return item.activity === activity && new Date(item.date) >= cutoff;
