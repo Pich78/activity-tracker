@@ -30,6 +30,12 @@ function showData(data) {
         .attr("x", function(d) { return x(d.date); })
         .attr("width", x.bandwidth())
         .attr("y", function(d) { return y(d.value); })
+        .attr("height", function(d) { return height - y(d.value); })
+        .style("fill", "#3F51B5") // Use a Material Design color
+        .style("filter", "url(#drop-shadow)") // Add a drop shadow
+        .transition() // Add a transition
+        .duration(1000)
+        .attr("y", function(d) { return y(d.value); })
         .attr("height", function(d) { return height - y(d.value); });
 
     // Add the x Axis
@@ -40,4 +46,24 @@ function showData(data) {
     // Add the y Axis
     svg.append("g")
         .call(d3.axisLeft(y));
+
+    // Define the drop shadow filter
+    let defs = svg.append("defs");
+    let filter = defs.append("filter")
+        .attr("id", "drop-shadow")
+        .attr("height", "130%");
+    filter.append("feGaussianBlur")
+        .attr("in", "SourceAlpha")
+        .attr("stdDeviation", 5)
+        .attr("result", "blur");
+    filter.append("feOffset")
+        .attr("in", "blur")
+        .attr("dx", 2)
+        .attr("dy", 2)
+        .attr("result", "offsetBlur");
+    let feMerge = filter.append("feMerge");
+    feMerge.append("feMergeNode")
+        .attr("in", "offsetBlur");
+    feMerge.append("feMergeNode")
+        .attr("in", "SourceGraphic");
 }
