@@ -36,7 +36,7 @@ function showData(data) {
         .on("mouseover", function(d) { // Add interactivity
             d3.select(this).style("fill", "#303F9F"); // Darken the bar
             tooltip.style("visibility", "visible"); // Show the tooltip
-            tooltip.text(dateTransform(d.date).getMonth() + ", " + dateTransform(d.date).getDay() + ": " + d.value + " " + d.unit); // Set the tooltip text
+            tooltip.text(dateTransform(d.date).getMonth().toLocaleString('en-US', {month:'long',}) + ", " + dateTransform(d.date).getDay() + ": " + d.value + " " + d.unit); // Set the tooltip text
         })
         .on("mousemove", function() { // Move the tooltip with the mouse
             tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
