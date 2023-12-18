@@ -20,7 +20,7 @@
         let currentData = [];
 
         async function initialize() {
-            dataArray = await fetchData();
+            dataArray = await fetchData('https://api.github.com/repos/Pich78/activity-tracker/contents/data');
 
             // Fill activity selector
             let activities = [...new Set(dataArray.map(item => item.activity))];
