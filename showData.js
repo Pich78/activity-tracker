@@ -1,3 +1,5 @@
+import { dataTransform } from './dateTransform.js'
+
 function showData(data) {
     // Remove the old svg if it exists
     d3.select("#chart").select("svg").remove();
@@ -36,7 +38,7 @@ function showData(data) {
         .on("mouseover", function(d) { // Add interactivity
             d3.select(this).style("fill", "#303F9F"); // Darken the bar
             tooltip.style("visibility", "visible"); // Show the tooltip
-            tooltip.text(formatDate(d.date) + ", " + d.value + " units"); // Set the tooltip text
+            tooltip.text(dataTransform(d.date) + ", " + d.value + " units"); // Set the tooltip text
         })
         .on("mousemove", function() { // Move the tooltip with the mouse
             tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
@@ -86,7 +88,4 @@ function showData(data) {
         .style("border-radius", "5px")
         .style("padding", "5px")
         .style("box-shadow", "2px 2px 5px #BBBBBB");
-
-    // Define the date format
-    let formatDate = d3.timeFormat("%A %d %B");
 }
