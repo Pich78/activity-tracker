@@ -7,7 +7,13 @@ function filterData(activity, days, data_array) {
 
     return data_array.filter(item => {
         console.log("Data from item: " + item.date)
-        let itemDate = new Date(item.date);
+
+        let parts = item.date.split('_');
+        let year = parseInt(parts[0], 10);
+        let month = parseInt(parts[1], 10) - 1; // JavaScript months are 0-indexed
+        let day = parseInt(parts[2], 10);
+        let itemDate = new Date(year, month, day);
+
         console.log("Converted item date: " + item.date)
         if (item.activity === activity) {
             console.log(itemDate)
