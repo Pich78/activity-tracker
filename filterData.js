@@ -8,7 +8,7 @@ function filterData(activity, days, data_array) {
     return data_array.filter(item => {
 
         let itemDate = dateTransform(item.date);
-
+        console.log(itemDate)
         if (item.activity === activity) {
             console.log(itemDate)
             console.log(cutoff)
