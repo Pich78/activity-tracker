@@ -5,6 +5,7 @@
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="fetchData.js"></script>
     <script src="showData.js"></script>
+    <script src="filterData.js"></script>
 </head>
 <body>
     <select id="activitySelector"></select>
@@ -53,7 +54,11 @@
         }
 
         function updateChart() {
-            currentData = filterData();
+
+            let activity = document.getElementById('activitySelector').value;
+            let days = document.getElementById('timeSelector').value;
+
+            currentData = filterData(activity, days, dataArray);
             console.log(currentData)
             showData(currentData);  // Assuming showData is implemented to display a D3 bar chart
         }
